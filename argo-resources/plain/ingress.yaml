@@ -2,8 +2,8 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: nginx
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
+#  annotations:
+#    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   ingressClassName: nginx
   rules:
@@ -17,7 +17,7 @@ spec:
                 name: nginx
                 port:
                   name: http
-  tls:
-    - hosts:
-        - nginx.argo.mklug.at
-      secretName: tls-nginx
+#  tls:
+#    - hosts:
+#        - nginx.argo.mklug.at
+#      secretName: tls-nginx
