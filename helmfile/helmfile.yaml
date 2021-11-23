@@ -1,0 +1,82 @@
+helmDefaults:
+  kubeContext: gke_gke-testing1234_us-central1_argo-test
+  wait: false
+  createNamespace: true
+
+repositories:
+  - name: ingress-nginx
+    url: https://kubernetes.github.io/ingress-nginx
+  - name: jetstack
+    url: https://charts.jetstack.io
+  - name: incubator
+    url: https://charts.helm.sh/incubator
+  - name: argo
+    url: https://argoproj.github.io/argo-helm
+
+releases:
+  - name: ingress-nginx
+    namespace: ingress-nginx
+    chart: ingress-nginx/ingress-nginx
+    version: 4.0.9
+    values:
+      - controller:
+          kind: DaemonSet
+          hostNetwork: true
+          service:
+            type: ClusterIP
+
+  - name: cert-manager
+    namespace: cert-manager
+    installed: true
+    chart: jetstack/cert-manager
+    version: 1.6.1
+    wait: true
+    values:
+      - installCRDs: true
+
+  - name: cert-manager-issuer
+    needs:
+      - cert-manager
+    namespace: cert-manager
+    installed: true
+    chart: incubator/raw
+    version: 0.2.5
+    # this is needed as the release before installs the crds this release needs
+    disableValidationOnInstall: true
+    # this is needed as cert-manager can take a few seconds to have the webhook available. This would lead to an error
+    # installing the crs. This hook in only triggered if changes to this release are made.
+    # https://cert-manager.io/docs/concepts/webhook/#known-problems-and-solutions
+    hooks:
+      - events: [ "presync" ]
+        showlogs: true
+        command: "sleep"
+        args: ["10"]
+    values:
+      - "cert-manager-cluster-issuers.yaml"
+
+  - name: argocd
+    needs:
+      - cert-manager-issuer
+    namespace: argo-cd
+    installed: true
+    chart: argo/argo-cd
+    values:
+      - installCRDs: true
+      - server:
+          config:
+            url: https://argo.mklug.at
+          extraArgs:
+            - --insecure
+          ingress:
+            enabled: true
+            ingressClassName: nginx
+            annotations:
+              cert-manager.io/cluster-issuer: letsencrypt-prod
+              nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+              nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+            hosts:
+              - argo.mklug.at
+            tls:
+              - secretName: tls-argo
+                hosts:
+                  - argo.mklug.at

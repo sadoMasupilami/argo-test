@@ -1,0 +1,12 @@
+project: gke-testing1234
+region: us-central1
+name: argo-test
+
+vpc:
+  subnetCidr: 10.0.0.0/16
+  podsSecondaryCidr: 192.168.0.0/17
+  servicesSecondaryCidr: 192.168.128.0/17
+
+ingress:
+  dnsName: sb.telus-sandbox.infonova.com
+  dnsZoneName: telus-sandbox-infonova-com
