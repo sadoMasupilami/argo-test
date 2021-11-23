@@ -7,7 +7,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: nginx.argo.mklug.at
+    - host: test.argo.mklug.at
       http:
         paths:
           - path: /
@@ -19,5 +19,5 @@ spec:
                   name: http
 #  tls:
 #    - hosts:
-#        - nginx.argo.mklug.at
+#        - test.argo.mklug.at
 #      secretName: tls-nginx
