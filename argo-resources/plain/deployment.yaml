@@ -18,7 +18,7 @@ spec:
           args:
             - "sh"
             - "-c"
-            - "echo 'hallo' > /usr/share/nginx/html/index.html && nginx -g 'daemon off;'"
+            - "echo 'hallo k8s stammtisch' > /usr/share/nginx/html/index.html && nginx -g 'daemon off;'"
           ports:
             - name: http
               containerPort: 80
