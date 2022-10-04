@@ -12,6 +12,14 @@ spec:
       labels:
         app: nginx
     spec:
+        volumes:
+          - name: html
+            configMap:
+              name: nginx
+              # An array of keys from the ConfigMap to create as files
+              items:
+              - key: "index.html"
+                path: "index.html"
       containers:
         - name: nginx
           image: bitnami/nginx:latest
@@ -28,6 +36,6 @@ spec:
               path: /
               port: http
           volumeMounts:
-            - name: nginx
+            - name: html
               mountPath: "/app"
               readOnly: true
