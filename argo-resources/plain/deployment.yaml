@@ -31,3 +31,7 @@ spec:
             httpGet:
               path: /
               port: http
+          volumeMounts:
+            - name: nginx
+              mountPath: "/app"
+              readOnly: true
