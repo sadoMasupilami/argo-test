@@ -11,8 +11,6 @@ spec:
     metadata:
       labels:
         app: nginx
-      annotations:
-        test: 123
     spec:
       volumes:
         - name: html
@@ -24,6 +22,9 @@ spec:
               path: "index.html"
       containers:
         - name: nginx
+          metadata:
+            annotations:
+              test: 123
           image: bitnami/nginx:latest
           ports:
             - name: http
