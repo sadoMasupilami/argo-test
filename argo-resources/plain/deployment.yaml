@@ -2,8 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx
-  labels:
-    test: 123
 spec:
   replicas: 1
   selector:
@@ -13,6 +11,8 @@ spec:
     metadata:
       labels:
         app: nginx
+      annotations:
+        test: 123
     spec:
       volumes:
         - name: html
