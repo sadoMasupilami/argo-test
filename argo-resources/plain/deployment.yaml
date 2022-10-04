@@ -14,11 +14,11 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: nginx
+          image: bitnami/nginx:latest
           args:
             - "sh"
             - "-c"
-            - "echo 'hallo k8s stammtisch' > /usr/share/nginx/html/index.html && nginx -g 'daemon off;'"
+            - "echo 'hallo IBM' > /app/index.html && nginx -g 'daemon off;'"
           ports:
             - name: http
               containerPort: 80
