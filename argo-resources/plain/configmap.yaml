@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: nginx
 data:
-  index.html: "Hallo Test!"
+  index.html: "Hallo IBM!"
