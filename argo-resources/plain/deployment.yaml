@@ -12,7 +12,7 @@ spec:
       labels:
         app: nginx
       annotations:
-        checksum: ae1234
+        checksum: ae12345
     spec:
       volumes:
         - name: html
